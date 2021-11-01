@@ -36,6 +36,10 @@ class Q_Trainer(object):
             eval_policy = self.rl_trainer.agent.actor,
         )
 
+    def print_result(self):
+        print(self.rl_trainer.return_result)
+
+
 def main():
 
     import argparse
@@ -88,6 +92,7 @@ def main():
 
     trainer = Q_Trainer(params)
     trainer.run_training_loop()
+    trainer.print_result()
 
 
 if __name__ == "__main__":

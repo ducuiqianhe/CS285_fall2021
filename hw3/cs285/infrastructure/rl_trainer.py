@@ -32,6 +32,8 @@ class RL_Trainer(object):
         ## INIT
         #############
 
+        self.return_result = []
+
         # Get params, create logger
         self.params = params
         self.logger = Logger(self.params['logdir'])
@@ -180,12 +182,9 @@ class RL_Trainer(object):
             self.agent.add_to_replay_buffer(paths)
 
             # train agent (using sampled data from replay buffer)
+            all_logs = self.train_agent()
             if itr % print_period == 0:
                 print("\nTraining agent...")
-            all_logs = self.train_agent()
-
-            # log/save
-            if self.logvideo or self.logmetrics:
                 # perform logging
                 print('\nBeginning logging procedure...')
                 if isinstance(self.agent, DQNAgent):
@@ -195,6 +194,18 @@ class RL_Trainer(object):
 
                 if self.params['save_params']:
                     self.agent.save('{}/agent_itr_{}.pt'.format(self.params['logdir'], itr))
+
+            # # log/save
+            # if self.logvideo or self.logmetrics:
+            #     # perform logging
+            #     print('\nBeginning logging procedure...')
+            #     if isinstance(self.agent, DQNAgent):
+            #         self.perform_dqn_logging(all_logs)
+            #     else:
+            #         self.perform_logging(itr, paths, eval_policy, train_video_paths, all_logs)
+            #
+            #     if self.params['save_params']:
+            #         self.agent.save('{}/agent_itr_{}.pt'.format(self.params['logdir'], itr))
 
     ####################################
     ####################################
@@ -210,12 +221,52 @@ class RL_Trainer(object):
             envsteps_this_batch: the sum over the numbers of environment steps in paths
             train_video_paths: paths which also contain videos for visualization purposes
         """
-        # TODO: get this from hw1 or hw2
 
-        return paths, envsteps_this_batch, train_video_paths
+        # decide whether to load training data or use the current policy to collect more data
+        # HINT: depending on if it's the first iteration or not, decide whether to either
+                # (1) load the data. In this case you can directly return as follows
+                # ``` return loaded_paths, 0, None ```
+
+                # (2) collect `self.params['batch_size']` transitions
+        if itr == 0:
+            if initial_expertdata:
+                file = open(initial_expertdata, 'rb')
+                loaded_paths = pickle.load(file)
+                return loaded_paths, 0, None
+            else:
+                num_transitions_to_sample = self.params['batch_size_initial']
+        else:
+            num_transitions_to_sample = self.params['batch_size']
+
+        # collect `batch_size` samples to be used for training
+        # HINT1: use sample_trajectories from utils
+        # HINT2: you want each of these collected rollouts to be of length self.params['ep_len']
+        paths, data_this_batch = utils.sample_trajectories(self.env, collect_policy, num_transitions_to_sample, self.params['ep_len'])
+
+        # collect more rollouts with the same policy, to be saved as videos in tensorboard
+        # note: here, we collect MAX_NVIDEO rollouts, each of length MAX_VIDEO_LEN
+        video_output = None
+        if self.logvideo:
+            ## look in utils and implement sample_n_trajectories
+            video_output = utils.sample_n_trajectories(self.env, collect_policy, MAX_NVIDEO, MAX_VIDEO_LEN, True)
+
+        return paths, data_this_batch, video_output
 
     def train_agent(self):
-        # TODO: get this from hw1 or hw2
+        all_logs = []
+        for train_step in range(self.params['num_agent_train_steps_per_iter']):
+
+            # sample some data from the data buffer
+            # HINT1: use the agent's sample function
+            # HINT2: how much data = self.params['train_batch_size']
+            ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch = self.agent.sample(self.params['train_batch_size'])
+
+            # use the sampled data to train an agent
+            # HINT: use the agent's train function
+            # HINT: keep the agent's training log for debugging
+            train_log = self.agent.train(ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch)
+            all_logs.append(train_log)
+        return all_logs
 
     ####################################
     ####################################
@@ -235,6 +286,7 @@ class RL_Trainer(object):
         if self.mean_episode_reward > -5000:
             logs["Train_AverageReturn"] = np.mean(self.mean_episode_reward)
         print("mean reward (100 episodes) %f" % self.mean_episode_reward)
+        self.return_result.append(self.mean_episode_reward)
         if self.best_mean_episode_reward > -5000:
             logs["Train_BestReturn"] = np.mean(self.best_mean_episode_reward)
         print("best mean reward %f" % self.best_mean_episode_reward)
@@ -280,41 +332,44 @@ class RL_Trainer(object):
         #######################
 
         # save eval metrics
-        if self.logmetrics:
-            # returns, for logging
-            train_returns = [path["reward"].sum() for path in paths]
-            eval_returns = [eval_path["reward"].sum() for eval_path in eval_paths]
 
-            # episode lengths, for logging
-            train_ep_lens = [len(path["reward"]) for path in paths]
-            eval_ep_lens = [len(eval_path["reward"]) for eval_path in eval_paths]
 
-            # decide what to log
-            logs = OrderedDict()
-            logs["Eval_AverageReturn"] = np.mean(eval_returns)
-            logs["Eval_StdReturn"] = np.std(eval_returns)
-            logs["Eval_MaxReturn"] = np.max(eval_returns)
-            logs["Eval_MinReturn"] = np.min(eval_returns)
-            logs["Eval_AverageEpLen"] = np.mean(eval_ep_lens)
 
-            logs["Train_AverageReturn"] = np.mean(train_returns)
-            logs["Train_StdReturn"] = np.std(train_returns)
-            logs["Train_MaxReturn"] = np.max(train_returns)
-            logs["Train_MinReturn"] = np.min(train_returns)
-            logs["Train_AverageEpLen"] = np.mean(train_ep_lens)
+        # if self.logmetrics:
+        # returns, for logging
+        train_returns = [path["reward"].sum() for path in paths]
+        eval_returns = [eval_path["reward"].sum() for eval_path in eval_paths]
 
-            logs["Train_EnvstepsSoFar"] = self.total_envsteps
-            logs["TimeSinceStart"] = time.time() - self.start_time
-            logs.update(last_log)
+        # episode lengths, for logging
+        train_ep_lens = [len(path["reward"]) for path in paths]
+        eval_ep_lens = [len(eval_path["reward"]) for eval_path in eval_paths]
 
-            if itr == 0:
-                self.initial_return = np.mean(train_returns)
-            logs["Initial_DataCollection_AverageReturn"] = self.initial_return
+        # decide what to log
+        logs = OrderedDict()
+        logs["Eval_AverageReturn"] = np.mean(eval_returns)
+        logs["Eval_StdReturn"] = np.std(eval_returns)
+        logs["Eval_MaxReturn"] = np.max(eval_returns)
+        logs["Eval_MinReturn"] = np.min(eval_returns)
+        logs["Eval_AverageEpLen"] = np.mean(eval_ep_lens)
 
-            # perform the logging
-            for key, value in logs.items():
-                print('{} : {}'.format(key, value))
-                self.logger.log_scalar(value, key, itr)
-            print('Done logging...\n\n')
+        logs["Train_AverageReturn"] = np.mean(train_returns)
+        logs["Train_StdReturn"] = np.std(train_returns)
+        logs["Train_MaxReturn"] = np.max(train_returns)
+        logs["Train_MinReturn"] = np.min(train_returns)
+        logs["Train_AverageEpLen"] = np.mean(train_ep_lens)
 
-            self.logger.flush()
+        logs["Train_EnvstepsSoFar"] = self.total_envsteps
+        logs["TimeSinceStart"] = time.time() - self.start_time
+        logs.update(last_log)
+
+        if itr == 0:
+            self.initial_return = np.mean(train_returns)
+        logs["Initial_DataCollection_AverageReturn"] = self.initial_return
+
+        # perform the logging
+        for key, value in logs.items():
+            print('{} : {}'.format(key, value))
+            self.logger.log_scalar(value, key, itr)
+        print('Done logging...\n\n')
+
+        self.logger.flush()
