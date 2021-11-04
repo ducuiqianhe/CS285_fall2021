@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="59e60f47-586e-4db5-b705-7a2a13429c90" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../hw5/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/agents/ac_agent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/agents/awac_agent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/agents/base_agent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/agents/dqn_agent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/agents/explore_or_exploit_agent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/critics/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/critics/base_critic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/critics/bootstrapped_continuous_critic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/critics/cql_critic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/critics/dqn_critic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/ant/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/ant/ant.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/box2d/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/box2d/lunar_lander.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/cheetah/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/cheetah/cheetah.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/obstacles/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/obstacles/obstacles_env.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/pointmass/pointmass.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/reacher/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/reacher/assets/sawyer.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/envs/reacher/reacher_env.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/exploration/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/exploration/base_exploration_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/exploration/rnd_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/infrastructure/atari_wrappers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/infrastructure/colab_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/infrastructure/dqn_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/infrastructure/logger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/infrastructure/pytorch_util.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/infrastructure/replay_buffer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/infrastructure/rl_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/infrastructure/rl_trainer_awac.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/infrastructure/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/policies/MLP_policy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/policies/argmax_policy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/policies/base_policy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/scripts/read_results.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/scripts/run_hw5_awac.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/cs285/scripts/run_hw5_expl.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/hw5.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/requirements_colab.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/run_hw5_awac.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/run_hw5_expl.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw5/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hw4/cs285/policies/MPC_policy.py" beforeDir="false" afterPath="$PROJECT_DIR$/../hw4/cs285/policies/MPC_policy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hw4/cs285_hw4.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../hw4/cs285_hw4.pdf" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1zgzWgoSIa0Hfum5z6I7MLbkyRn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/cs285/scripts/data" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Qianhe\Documents\school\CS285\project\homework_fall2021\hw3\cs285\scripts\data" />
+      <recent name="C:\Users\Qianhe\Documents\school\CS285\project\homework_fall2021\hw3\cs285\scripts" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="59e60f47-586e-4db5-b705-7a2a13429c90" name="Default Changelist" comment="" />
+      <created>1634584552484</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1634584552484</updated>
+    </task>
+    <servers />
+  </component>
+</project>
